@@ -20,7 +20,7 @@ class TaskOptimizer(object):
         '''
         self.__dag = DirectedAcyclicGraph(tasks, dependencies)
         self.__inv_dag = self.__dag.invertGraph()
-        self.__opt_task = defaultdict(tuple)
+        self.__opt_task = defaultdict(list)
         self.__task_list = tasks
         for t in tasks:
             self.__opt_task[t] = [0, t.time]
@@ -138,7 +138,7 @@ class TaskOptimizer(object):
         temp_indep_tasks = []     # list of indep tasks yet to be scheduled
         curr_tasks = []           # tasks prepared to be scheduled
         flag1 = 0                 # flag that helps terminate the while loop
-        while priority_heap:
+        while priority_heap or temp_indep_tasks:
             curr_finished = []    # temporary array for tasks totally done
             curr_adding = []      # temporary array for indep tasks being added
 
