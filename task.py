@@ -13,7 +13,8 @@ from random import randint
 @total_ordering
 class Task(object):
 
-    def __init__(self, name='default', time=0, description='', priority=1):
+    def __init__(self, name='default', time=0, description='',\
+                 independence=False, priority=1):
         ''' Initializes a task with name, time, and description.
         For default, name='default', time=0, and description=''.
         '''
@@ -22,6 +23,7 @@ class Task(object):
         self.time = time
         self.description = description
         self.priority = priority
+        self.independent = independence
         # self.children = []
         # self.parents = []
 
