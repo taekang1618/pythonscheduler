@@ -1,0 +1,9 @@
+{
+	"totalDuration": 10,
+	"numTasks": 5,
+	"walk_the_dog": [0,5],
+	"water_munee": [2,6],
+	"brush_teeth": [5,8],
+	"do_planks":[7,9],
+	"write_letters": [8,10]
+}
