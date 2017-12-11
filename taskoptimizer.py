@@ -224,14 +224,19 @@ class TaskOptimizer(object):
         return self.__opt_task[task]
 
 
-    def jsonify(self):
+    def jsonify(self, filename):
         ''' Output a JSON formatted file of the optimized schedule '''
-        string_dict = defaultdict(list)
+        json_list = []
         for k, v in self.__opt_task.items():
-            string_dict[k.name] = v
-        with open('result.json', 'w') as fp:
-            json.dump(string_dict, fp)
-        return string_dict
+            json_object = {}
+            json_object["name"] = k.name
+            json_object["description"] = k.description
+            json_object["duration"] = k.time
+            json_object["timestamp"] = v
+            json_list.append(json_object)
+        with open(filename, 'w') as fp:
+            json.dump(json_list, fp)
+        return json_list
 
 
     def totalTime(self):
@@ -244,20 +249,6 @@ class TaskOptimizer(object):
             if v[1] > end_time:
                 end_time = v[1]
         return end_time - start_time
-
-
-    # def sortSchedule(self):
-    #     ''' Sorts the optimized schedule according to start time '''
-    #     sorted_dict = defaultdict(list)
-    #     early_time = maxsize
-    #     early_timestamp = None
-    #     early = None
-    #     for k, v in self.__opt_task.items():
-    #         if v[0] < early_time:
-    #             early = k
-    #             early_time = v[0]
-    #             early_timestamp = v
-    #     sorted_dict[early] = early_timestamp
 
 
     def scheduleGenerator(self):
