@@ -234,8 +234,10 @@ class TaskOptimizer(object):
             json_object["duration"] = k.time
             json_object["timestamp"] = v
             json_list.append(json_object)
+        final_json = {"totalDuration": self.totalTime(),
+                    "tasks" :json_list}
         with open(filename, 'w') as fp:
-            json.dump(json_list, fp)
+            json.dump(final_json, fp)
         return json_list
 
 

@@ -111,7 +111,7 @@ class Task(object):
         if self.description == '':
             self.description = more_description
         else:
-            self.description = self.description + '/ ' + more_description
+            self.description += '/ ' + more_description
 
 
     def editTime(self, new_time):
