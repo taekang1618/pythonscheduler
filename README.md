@@ -37,6 +37,7 @@ ex) { taskA : [0, 10],
 2. DirectedAcyclicGraph - This is a generic directed acyclic graph(dag) using a DFS-like method to detect cycles before initializing the graph or adding edges to the graph. There are also useful methods like toposort (topologically sort the dag vertices) and invertGraph (invert the edges in the graph).
   * Requirements :
     1 - uses defaultdict from the collections module
+  * Notes : isCyclic function adapted from www.geeksforgeeks.org/detect-cycle-in-a-graph/
 
 3. TaskOptimizer - This is the main part of our project. This class takes in a list of tasks and dependencies (i.e. a graph with Task objects as nodes) to build an optimized schedule that minimizes the total time it takes to execute all tasks. We use a self-developed optimization algorithm using topological sort, DFS, and several datastructures(heaps, dictionaries, etc.). 
   * Requirements :
