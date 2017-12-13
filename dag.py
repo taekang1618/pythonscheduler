@@ -12,6 +12,7 @@ Uses depth first search to check for cycles when initializing and adding edges.
 import task
 from collections import defaultdict
 
+
 class DirectedAcyclicGraph(object):
 
     def __init__(self, vertices, edges=[]):
@@ -26,7 +27,6 @@ class DirectedAcyclicGraph(object):
         if edges:
             for k, v in edges:
                 self.__graph_dict[k].append(v)
-
 
     def __str__(self):
         ''' Outputs stringified version of graph dictionary '''
@@ -45,7 +45,6 @@ class DirectedAcyclicGraph(object):
             s = s[:-4] + "}"
         return s
 
-
     def graph(self):
         ''' returns the graph in dictionary format '''
         return self.__graph_dict
@@ -54,11 +53,9 @@ class DirectedAcyclicGraph(object):
         ''' returns the vertices of a graph '''
         return self.__vertexSet
 
-
     def edges(self):
         ''' returns the edges of a graph '''
         return self.__edgeSet
-
 
     def addVertex(self, vertex):
         ''' If vertex is not in graph_dict, a vertex key with an empty list as
@@ -87,20 +84,18 @@ class DirectedAcyclicGraph(object):
                     self.addVertex(v)
                     self.__edgeSet.append(edge)
 
-
     def __cycleHelper(self, v, visited, stack):
         ''' Helper function to run __isCyclic'''
         visited[v] = True
         stack[v] = True
         for n in self.__graph_dict[v]:
-            if visited[n] == False:
+            if visited[n] is False:
                 if self.__cycleHelper(n, visited, stack):
                     return True
-            elif stack[n] == True:
+            elif stack[n] is True:
                 return True
         stack[v] = False
         return False
-
 
     def __isCyclic(self, init_node):
         ''' Checks for cycles using the dfs algorithm. '''
@@ -110,10 +105,9 @@ class DirectedAcyclicGraph(object):
             visited[v] = False
             stack[v] = False
         for v in self.__vertexSet:
-            if self.__cycleHelper(v, visited, stack) == True:
+            if self.__cycleHelper(v, visited, stack) is True:
                 return True
         return False
-
 
     def __toposort_helper(self, v, top, used, result):
         if v in used:
@@ -123,15 +117,14 @@ class DirectedAcyclicGraph(object):
         used.add(v)
         result.append(v)
 
-
     def toposort(self):
-        ''' Helper function to topologically sort the directed acyclic graph '''
+        ''' Helper function to topologically sort the
+        directed acyclic graph '''
         result = []
         used = set()
         for v in self.__graph_dict:
             self.__toposort_helper(v, v, used, result)
         return result[::-1]
-
 
     def invertGraph(self):
         ''' Invert edges of the graph to get a dictionary of parent nodes. '''

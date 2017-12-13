@@ -126,7 +126,7 @@ class TestDAG(unittest.TestCase):
         burger_optimizer = TaskOptimizer.fromGraphDict(burger_graph)
         burger_optimizer.optimize()
         burger_optimizer.sortedPrint()
-        burger_optimizer.jsonify('burger2.json')
+        burger_optimizer.jsonify('burger.json')
 
 
 

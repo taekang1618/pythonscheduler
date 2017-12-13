@@ -12,6 +12,7 @@ from sys import maxsize
 from copy import deepcopy
 import json
 
+
 class TaskOptimizer(object):
 
     def __init__(self, tasks, dependencies=[]):
@@ -25,7 +26,6 @@ class TaskOptimizer(object):
         for t in tasks:
             self.__opt_task[t] = [0, t.time]
 
-
     @classmethod
     def fromGraphDict(cls, dict):
         vertices = []
@@ -33,14 +33,12 @@ class TaskOptimizer(object):
         for k, v in dict.items():
             vertices.append(k)
             for n in v:
-                edges.append((k,n))
+                edges.append((k, n))
         return cls(vertices, edges)
-
 
     def tasks(self):
         ''' returns the task list '''
         return self.__task_list
-
 
     def addTask(self, task):
         ''' If task is not in task_list, add it to the necessary datastructures
@@ -50,7 +48,6 @@ class TaskOptimizer(object):
             self.__task_list.append(task)
             self.__dag.addVertex(task)
             self.__inv_dag.addVertex(task)
-
 
     def addDependency(self, dependency):
         ''' Adds a dependency(edge) (of tuple type) to the scheduler
@@ -63,13 +60,11 @@ class TaskOptimizer(object):
             self.addTask(v)
 
         self.__dag.addEdge(dependency)
-        self.__inv_dag.addEdge((v,k))
-
+        self.__inv_dag.addEdge((v, k))
 
     def neighbors(self, task):
         ''' Gets all dependent tasks of a designated task (neighbors) '''
         return self.__dag.graph()[task]
-
 
     def __reachable(self, task, visited):
         ''' Find all reachable vertices from a source '''
@@ -78,7 +73,6 @@ class TaskOptimizer(object):
                 visited.append(n)
                 r = self.__reachable(n, visited)
         return visited
-
 
     @staticmethod
     def timesort(l, time_dict):
@@ -95,7 +89,6 @@ class TaskOptimizer(object):
             l.remove(max_val)
         return sorted_l
 
-
     @staticmethod
     def containsIndep(l):
         ''' Checks if a list of tasks contains an independent task '''
@@ -104,21 +97,22 @@ class TaskOptimizer(object):
                 return True
         return False
 
-
     def optimize(self):
         ''' Optimizes the current sequence of tasks to minimize finish using
         dependencies specified in the DAG. '''
         priority_heap = []
         times_dict = defaultdict(int)
         accumulation_dict = defaultdict(int)
-        # Initialize heap with task list / Initialize a dictionary of task times
+        # Initialize heap with task list
+        # Initialize a dictionary of task times
         for t in self.__task_list:
             heappush(priority_heap, t)
             times_dict[t] = t.time
             accumulation_dict[t] = t.time
         # Topologically sort the tasks
         topolist = self.__dag.toposort()
-        # Increment priority of a task for every task that has to come before it
+        # Increment priority of a task for every task that has
+        # to come before it
         for t in topolist:
             r = self.__reachable(t, [])
             for v in r:
@@ -148,7 +142,8 @@ class TaskOptimizer(object):
             while top_task.priority == 1:
                 if top_task.independent and self.containsIndep(curr_tasks):
                     curr_indep = next(x for x in curr_tasks if x.independent)
-                    # Schedule indep task with highest accumulation score* first
+                    # Schedule indep task with highest
+                    # accumulation score* first
                     if accumulation_dict[curr_indep] < \
                        accumulation_dict[top_task]:
                         curr_tasks.remove(curr_indep)
@@ -196,7 +191,7 @@ class TaskOptimizer(object):
                     # If finishing task is independent, prepare to schedule
                     # another independent task
                     if task.independent and temp_indep_tasks:
-                        temp_indep_tasks = self.timesort(temp_indep_tasks, \
+                        temp_indep_tasks = self.timesort(temp_indep_tasks,
                                                          accumulation_dict)
                         new_task = temp_indep_tasks.pop(0)
                         curr_tasks.append(new_task)
@@ -218,11 +213,9 @@ class TaskOptimizer(object):
             if flag1 and not temp_indep_tasks:
                 break
 
-
     def getTimestamp(self, task):
         ''' Get optimized timestamp for each task '''
         return self.__opt_task[task]
-
 
     def jsonify(self, filename):
         ''' Output a JSON formatted file of the optimized schedule '''
@@ -235,11 +228,10 @@ class TaskOptimizer(object):
             json_object["timestamp"] = v
             json_list.append(json_object)
         final_json = {"totalDuration": self.totalTime(),
-                    "tasks" :json_list}
+                      "tasks": json_list}
         with open(filename, 'w') as fp:
             json.dump(final_json, fp)
         return json_list
-
 
     def totalTime(self):
         ''' returns total time it takes to finish all tasks '''
@@ -251,7 +243,6 @@ class TaskOptimizer(object):
             if v[1] > end_time:
                 end_time = v[1]
         return end_time - start_time
-
 
     def scheduleGenerator(self):
         ''' A generator that yields a list of the tasks that must be done
@@ -278,7 +269,6 @@ class TaskOptimizer(object):
                 if times_dict[t] <= 0:
                     results.remove(t)
 
-
     def sortedPrint(self):
         ''' Prints output of schedule sorted by start time '''
         schedule = deepcopy(self.__opt_task)
@@ -292,5 +282,5 @@ class TaskOptimizer(object):
                     min_start_time = v[0]
                     min_task_timestamp = v
             del schedule[min_task]
-            print(min_task.name + ': [' + str(min_task_timestamp[0]) + \
+            print(min_task.name + ': [' + str(min_task_timestamp[0]) +
                   ' ~ ' + str(min_task_timestamp[1]) + ']')
