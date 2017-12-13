@@ -157,24 +157,12 @@ section{
     <div class="item html">
          <p style="font-size:15pt">Time Elapsed (seconds)</p>
     <h2>0</h2>
-<!--     <svg width="20" height="20" xmlns="http://www.w3.org/2000/svg">
-     <g>
- -->
-<!--   <p style="font-size:15pt">Current Task(s)</p>
- <h5 id="yellow" style="background-color: #fff956"></h5>
-  <h5 id="orange" style="background-color: #ffb556"></h5>
-    <h5 id="purple" style="background-color: #9c56ff"></h5> -->
-
-      <!-- <title>Layer 1</title> -->
-      <!-- <circle id="circle" class="circle_animation" r="69.85699" cy="81" cx="81" stroke-width="8" stroke="#6fdb6f" fill="none"/> -->
      </g>
     </svg>
 </div>
         <!-- <h3 class="" style="margin-top:10pt">Here are your tasks</h3> -->
         <br>
         <br>
-    <!--     <h2>{{data.totalDuration}}</h2> -->
-        <!-- <a class="btn btn-primary btn-xl" href="https://startbootstrap.com/template-overviews/stylish-portfolio/">Download Now!</a> -->
             <div class="w3-light-grey">
   <div class="w3-blue" style="width:75%"></div>
 </div>
@@ -230,19 +218,13 @@ section{
     var time = {{duration}}; /* how long the timer runs for */
 
     var t=JSON.parse('{{raw_data|tojson|safe}}');
+    t.sort(sortByTimestamp);
 
     var initialOffset = '440';
     var i = 1;
 
     var startIndex = 0;
     var interval = setInterval(function() {
-      curr_tasks_y = []
-      curr_tasks_o = []
-      curr_tasks_p = []
-      curr_tasks = []
-
-      console.log("curr tasks " + curr_tasks);
-      console.log(curr_tasks.length);
         $('.circle_animation').css('stroke-dashoffset', initialOffset-(i*(initialOffset/time)));
         $('h2').text(i);
         fillTable();
@@ -261,7 +243,6 @@ section{
     function fillTable() {
       var html= "";
       $('#tasktable').empty();
-      // console.log("full html" + html);
       for (var k = 0; k < t.length; k++) {
         if (t[k]["timestamp"][0] <= i && t[k]["timestamp"][1] >= i) {
           html += "<tr bgcolor='#ffee02'>"
@@ -282,6 +263,14 @@ section{
 
       $('#tasktable').append(html);
       console.log("full html" + html);
+  }
+
+  function sortByTimestamp(x, y) {
+    if (x["timestamp"][0] != y["timestamp"][0]) {
+      return (x["timestamp"][0] - y["timestamp"][0]);
+    } else {
+      return (x["timestamp"][1] - y["timestamp"][1]);
+    }
   }
 </script>
   </body>
