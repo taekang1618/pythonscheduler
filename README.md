@@ -53,7 +53,7 @@ ex) { taskA : [0, 10],
 3. Open http://127.0.0.1:5000/
 4. Click the "Start Cooking!" button
 
-When the user clicks the "Start Cooking!" button, app.py reads in the json.file (the same JSON file written out from the JSONify method (3)) and creates a visual schedule table that shows: a) the time elapsed since the user started the task, b) time bar that tracks at which task the user should be at that time, c) display bar that tell theuser what action she should be doing at that point. The web app was visually designed as a recipe scheduler such that the tasks are ones that would do to prepare a meal (e.g. seasoning the chicken, etc.). 
+When the user clicks the "Start Cooking!" button, app.py reads in the json.file (the same JSON file written out from the JSONify method (3)) and creates a visual schedule table that shows an interactive table with all info about the tasks (task name, start and end time, duration, task description) that highlights what the user should be doing at the given second, which is also displayed by a live timer.
   * Requirements:
     1 - uses flask that passes on task information to web pages
     2 - uses json as format for passing task data
