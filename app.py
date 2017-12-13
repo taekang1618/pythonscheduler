@@ -44,7 +44,7 @@ def index():
 	for t in data["tasks"]:
 		t_list.append(t["name"])
 		time_list.append(t["timestamp"])
-	return render_template('index.html', data=bar_list, timer = time, 
+	return render_template('new_table.html', data=bar_list, timer = time, 
 		                    duration=total_duration, raw_data = data["tasks"],
 							t_list = t_list, time_list = time_list)
 
